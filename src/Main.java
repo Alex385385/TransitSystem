@@ -9,12 +9,11 @@ public class Main {
         System.out.println("Please Select An Integer: ");
         System.out.println(" 1. Add ");
         System.out.println(" 2. Delete ");
-        System.out.println(" 3. Edit ");
-        System.out.println(" 4. Display ");
-        System.out.println(" 5. Exit ");
+        System.out.println(" 3. Display ");
+        System.out.println(" 4. Exit ");
 
         int input = scan.nextInt();
-        while(input <=5) {
+        while(input <=4) {
             if(input ==1) {
                 //ADD
                 System.out.print(" What Would You Like To Add?\n");
@@ -26,34 +25,110 @@ public class Main {
                 while(addselect <=3){
                     if(addselect==1){
                         //TRIP OFFERING
-                    }
+                        System.out.print(" Please enter a Trip Number\n");
+                        int tripNumber = scan.nextInt();
+                        System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
+                        String date = scan.nextLine();
+                        System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
+                        String scheduledStartTime = scan.nextLine();
+                        System.out.print(" Please enter a Schedule Arrival Time in the form of hh:mm:ss\n");
+                        String scheduledArrivalTime = scan.nextLine();
+                        System.out.print(" Please enter the Name of Bus Driver\n");
+                        String driverName = scan.nextLine();
+                        System.out.print(" Please enter a Bus ID Number\n");
+                        int busID = scan.nextInt();
+                        //addTripOffering(int tripNumber, String date, String scheduledStartTime, String scheduledArrivalTime, String driverName, int busID);
+                    }//END ADD TRIP OFFERING
                     if(addselect==2){
                         //BUS
-                    }
+                        System.out.print(" Please enter a Bus ID Number\n");
+                        int busID = scan.nextInt();
+                        System.out.print(" Please enter the Model\n");
+                        String model = scan.nextLine();
+                        System.out.print(" Please enter the Year\n");
+                        int year = scan.nextInt();
+                        //addBus(int busID, String model, int year);
+                    }//END ADD BUS
+
                     if(addselect==3){
                         //DRIVER
-                    }
+                        System.out.print(" Please enter Name of Driver\n");
+                        String driverName = scan.nextLine();
+                        System.out.print(" Please enter the Telephone Number\n");
+                        int telephone = scan.nextInt();
+                        //addDriver(String driverName, String telephone);
+                    }//END ADD DRIVER
+
                     else{
                         System.out.println("Error");
                     }
                 }//End ADD While
-            }
+            }//END ADD IF
+
             if (input ==2){
                 //DELETE
-            }
+                System.out.print(" What Would You Like To Delete?\n");
+                System.out.print(" 1. Trip Offering\n");
+                System.out.print(" 2. Bus\n");
+                int deleteselect = scan.nextInt();
+
+                while(deleteselect <=2) {
+                    if (deleteselect == 1) {
+                        //TRIP OFFERING
+                        System.out.print(" Please enter a Trip Number\n");
+                        int tripNumber = scan.nextInt();
+                        System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
+                        String date = scan.nextLine();
+                        System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
+                        String scheduledStartTime = scan.nextLine();
+                        //deleteTripOffering(int tripNumber, String date, String scheduledStartTime);
+                    }
+                    if (deleteselect == 2) {
+                        //BUS
+                        System.out.print(" Please enter a Bus ID Number\n");
+                        int busID = scan.nextInt();
+                        //deleteBus(int busID);
+                    }
+                    else {
+                        System.out.println("Error");
+                    }
+                }//END DELETE WHILE
+            }//END DELETE IF
+
             if (input ==3){
-                //EDIT
-            }
-            if (input ==4){
                 //DISPLAY
-            }
-            if(input ==5){
+                System.out.print(" What Would You Like To Display?\n");
+                System.out.print(" 1. Trip Offering\n");
+                System.out.print(" 2. Driver Schedule and Date\n");
+                System.out.print(" 3. Stops\n");
+                int displayselect = scan.nextInt();
+
+                while(displayselect <=3) {
+                    if (displayselect == 1) {
+                        //DISPLAY TRIP OFFERING
+                        //DisplayTripOffering();
+                    }
+                    if (displayselect == 2) {
+                        //DRIVER SCHEDULE AND DATE
+                        //DisplayDriver();
+                    }
+                    if (displayselect == 3) {
+                        //STOPS
+                        //DisplayStop();
+                    }
+                    else {
+                        System.out.println("Error");
+                    }
+                }//END DISPLAY WHILE
+            }//END DISPLAY IF
+
+            if(input ==4){
                 //EXIT
                 System.exit(1);
-            }
+            }//END EXIT IF
             else{
                 System.out.println("Error");
-            }
-        }//End While
+            }//ERROR
+        }//End MENU While
     }
 }
