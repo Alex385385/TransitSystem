@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        Database db = new Database();
 	//Make A Menu
         System.out.println(" Trip Menu ");
         System.out.println("Please Select An Integer: ");
@@ -52,11 +53,12 @@ public class Main {
 
                     if(addselect==3){
                         //DRIVER
+                        scan.nextLine();
                         System.out.print(" Please enter Name of Driver\n");
                         String driverName = scan.nextLine();
                         System.out.print(" Please enter the Telephone Number\n");
                         int telephone = scan.nextInt();
-                        //addDriver(String driverName, String telephone);
+                        db.addDriver(driverName, telephone);
                     }//END ADD DRIVER
 
                     else{
