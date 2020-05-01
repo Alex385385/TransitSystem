@@ -28,6 +28,7 @@ public class Main {
                         //TRIP OFFERING
                         System.out.print(" Please enter a Trip Number\n");
                         int tripNumber = scan.nextInt();
+                        scan.nextLine();
                         System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
                         String date = scan.nextLine();
                         System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
@@ -38,17 +39,18 @@ public class Main {
                         String driverName = scan.nextLine();
                         System.out.print(" Please enter a Bus ID Number\n");
                         int busID = scan.nextInt();
-                        //addTripOffering(int tripNumber, String date, String scheduledStartTime, String scheduledArrivalTime, String driverName, int busID);
+                        db.addTripOffering(tripNumber, date, scheduledStartTime, scheduledArrivalTime, driverName, busID);
                     }//END ADD TRIP OFFERING
                     if(addselect==2){
                         //BUS
                         System.out.print(" Please enter a Bus ID Number\n");
                         int busID = scan.nextInt();
+                        scan.nextLine();
                         System.out.print(" Please enter the Model\n");
                         String model = scan.nextLine();
                         System.out.print(" Please enter the Year\n");
                         int year = scan.nextInt();
-                        //addBus(int busID, String model, int year);
+                        db.addBus(busID, model, year);
                     }//END ADD BUS
 
                     if(addselect==3){
@@ -59,6 +61,7 @@ public class Main {
                         System.out.print(" Please enter the Telephone Number\n");
                         int telephone = scan.nextInt();
                         db.addDriver(driverName, telephone);
+                        break;
                     }//END ADD DRIVER
 
                     else{
