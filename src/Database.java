@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
     private String p = "rwvDqBlKODdjbVsd_-4wEJrhXVPHREth";
@@ -56,8 +53,24 @@ public class Database {
         //Display trip offering
     }
 
-    public void addDriver(String driverName, String telephone) {
+    public void addDriver(String driverName, int telephone) {
+        try {
 
+            stmt = c.createStatement();
+            String sql = "INSERT INTO Driver(DriverName, DriverTelephoneNumber)" + "VALUES(?,?);";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1,"driverName");
+            ps.setInt(2,telephone);
+            ps.executeUpdate();
+
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.exit(0);
+    }
+        System.out.println("Added to database successfully");
     }
 
     public void addBus(int busID, String model, int year) {
