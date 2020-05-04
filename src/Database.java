@@ -182,8 +182,8 @@ public class Database {
 
     public void updateBusTripOffering(int busID, int tripNumber, String date, String scheduledStartTime) {
         try {
-            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
+            DateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date newsqlDate = sqlDate.parse(date);
 
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
             Date dateParse = dateFormat.parse(scheduledStartTime);
@@ -196,7 +196,7 @@ public class Database {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, busID);
             ps.setInt(2, tripNumber);
-            ps.setDate(3, sqlDate);
+            ps.setDate(3, (java.sql.Date) newsqlDate);
             ps.setTime(4, sqlTime);
             ps.executeUpdate();
 
@@ -254,6 +254,7 @@ public class Database {
             c.commit();
             stmt.close();
         }
+        //:)
         catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName()+": "+e.getMessage());
