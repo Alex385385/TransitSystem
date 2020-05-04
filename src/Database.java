@@ -33,7 +33,33 @@ public class Database {
     }
 
     public void deleteTripOffering(int tripNumber, String date, String scheduledStartTime) {
+        try {
+            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
 
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            Date dateParse = dateFormat.parse(scheduledStartTime);
+            Time sqlTime = new Time(dateParse.getTime());
+
+            stmt = c.createStatement();
+            String sql = "DELETE FROM tripoffering " + " WHERE tripNumber = ? " +
+                         "AND date = ? AND scheduledstarttime = ?;";
+
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, tripNumber);
+            ps.setDate(2, sqlDate);
+            ps.setTime(3, sqlTime);
+            ps.executeUpdate();
+
+            c.commit();
+            stmt.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Deleted From Database Successfully");
     }
 
     public void addTripOffering(int tripNumber, String date, String scheduledStartTime, String scheduledArrivalTime, String driverName, int busID) {
@@ -131,7 +157,21 @@ public class Database {
     }
 
     public void deleteBus(int busID) {
-
+        try {
+            stmt = c.createStatement();
+            String sql = "DELETE FROM bus" + " WHERE busID = ?;";
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1,busID);
+            ps.executeUpdate();
+            c.commit();
+            stmt.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Deleted From Database Successfully");
     }
 
     public void insertTripOffering() {
