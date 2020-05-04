@@ -82,17 +82,18 @@ public class Main {
                         //TRIP OFFERING
                         System.out.print(" Please enter a Trip Number\n");
                         int tripNumber = scan.nextInt();
+                        scan.nextLine();
                         System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
                         String date = scan.nextLine();
                         System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
                         String scheduledStartTime = scan.nextLine();
-                        //deleteTripOffering(int tripNumber, String date, String scheduledStartTime);
+                        db.deleteTripOffering(tripNumber, date, scheduledStartTime);
                     }
                     if (deleteselect == 2) {
                         //BUS
                         System.out.print(" Please enter a Bus ID Number\n");
                         int busID = scan.nextInt();
-                        //deleteBus(int busID);
+                        db.deleteBus(busID);
                     }
                     else {
                         System.out.println("Error");
