@@ -165,7 +165,7 @@ public class Main {
                     if (updateSelect == 2) {
                         //TRIP OFFERING
                         scan.nextLine();
-                        System.out.print(" Please enter Name of Driver\n");
+                        System.out.print(" Please enter Bus ID\n");
                         int busID = scan.nextInt();
 
                         System.out.print(" Please enter a Trip Number\n");
