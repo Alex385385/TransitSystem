@@ -124,11 +124,20 @@ public class Main {
                     }
                     if (displayselect == 2) {
                         //DRIVER SCHEDULE AND DATE
-                        //DisplayDriver();
+                        scan.nextLine();
+                        System.out.println("Please enter the Driver Name");
+                        String driverName = scan.nextLine();
+                        System.out.println("Please enter the Date");
+                        String date = scan.nextLine();
+                        db.displayWeeklySchedule(driverName, date);
                     }
                     if (displayselect == 3) {
                         //STOPS
-                        //DisplayStop();
+                        scan.nextLine();
+                        System.out.println("Please enter the Trip Number");
+                        int tripNumber = scan.nextInt();
+                        db.displayStopsOfTrip(tripNumber);
+                        break;
                     }
                     else {
                         System.out.println("Error");

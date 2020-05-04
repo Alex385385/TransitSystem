@@ -211,7 +211,7 @@ public class Database {
         System.out.println("Updated DriverName Successfully");
     }
 
-    public void getStopsOfTrip(int tripNumber) {
+    public void displayStopsOfTrip(int tripNumber) {
         //the attributes of the table TripStopInfo
         //TripNumber, StopNumber, SequenceNumber, DrivingTime
         try {
@@ -235,7 +235,6 @@ public class Database {
             }
             rs.close();
             stmt.close();
-            c.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -245,7 +244,7 @@ public class Database {
         System.out.println("Opened database successfully");
     }
 
-    public void getWeeklySchedule(String driverName, String date) {
+    public void displayWeeklySchedule(String driverName, String date) {
         //Display trip offering
         //Display trip offering
         //TripNumber, Date, ScheduledStartTime, ScheduledArrivalTime,DriverName, BusID
@@ -275,7 +274,6 @@ public class Database {
             }
             rs.close();
             stmt.close();
-            c.close();
         }
         catch(Exception e){
             e.printStackTrace();
