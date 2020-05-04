@@ -28,7 +28,17 @@ public class Database {
 //    ScheduledArrivalTime , DriverName, and BusID.
 
     public void displayTripSchedule(String StartLocationName, String DestinationName, String Date) {
-
+        //--Display--
+        //Scheduled StartTime
+        //ScheduledArrivalTime
+        //DriverName
+        //BusID
+//        SELECT t.StartLocationName, t.DestinationName, toff.Date, toff.ScheduledStartTime, toff.ScheduledArrivalTime,toff.DriverName, toff.BusID
+//        FROM trip AS t, TripOffering As toff
+//        WHERE t.TripNumber=toff.TripNumber AND
+//        t.StartLocationName LIKE 'Chum Bucket%' AND
+//        t.DestinationName LIKE 'Krusty Krab%'AND
+//        toff.Date = '2020-01-01';
         try {
             stmt = c.createStatement();
             String mem = "trip";
@@ -138,57 +148,38 @@ public class Database {
         }
         System.out.println(" Added to database successfully");
     }
-//Change the driver for a given Trip offering (i.e given TripNumber, Date, ScheduledStartTime);
-    public void updateDriverTripOffering( String drivername,int tripNumber, String date, String scheduledStartTime) {
+
+    public void updateDriverTripOffering(String driverName, int tripNumber, String date, String scheduledStartTime) {
         try {
-            //CHECK IF INFO IS VALID
+            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
+
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            Date dateParse = dateFormat.parse(scheduledStartTime);
+            Time sqlTime = new Time(dateParse.getTime());
+
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT TripNumber, Date, ScheduledStartTime \n" +
-                    "FROM  TripOffering \n" +
-                    "WHERE TripNumber = '" + tripNumber + "' AND \n" +
-                    "Date = '" + date + "' AND \n" +
-                    "ScheduledStartTime = '" + scheduledStartTime + "';");
-
-            while (rs.next()) {
-                int tN = rs.getInt("TripNumber");
-                //date
-                Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                d = rs.getDate("Date");
-                //time
-                Time sstartt = rs.getTime("ScheduledStartTime");
-
-
-                System.out.println("Trip ID = " + tN);
-                System.out.println("Date = " + d);
-                System.out.println("Scheduled Start Time = " + sstartt);
-
-                System.out.println();
-            }
-            System.out.println("Information Is Valid");
-            //Proceed to update
-            String sql = "UPDATE TripOffering "
-                    + "SET DriverName = ?"
-                    + "WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
-                    "toff.Date = '" + date + "' AND \n" +
-                    "toff.ScheduledStartTime = '" + scheduledStartTime + "';";
+            String sql = "UPDATE tripoffering SET drivername = ?\n" +
+                         "WHERE tripnumber = ? AND date = ? AND scheduledstarttime = ?;";
 
             PreparedStatement ps = c.prepareStatement(sql);
-            ps.setString(1, drivername);
+            ps.setString(1, driverName);
+            ps.setInt(2, tripNumber);
+            ps.setDate(3, sqlDate);
+            ps.setTime(4, sqlTime);
             ps.executeUpdate();
 
             c.commit();
             stmt.close();
         }
-             catch (Exception e) {
-                e.printStackTrace();
-                System.err.println(e.getClass().getName()+": "+e.getMessage());
-                System.exit(0);
-            }
-            System.out.println("Updated DriverName Successfully");
-
-
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
         }
-//Change the bus for a given Trip offering.
+        System.out.println("Updated DriverName Successfully");
+    }
+
     public void updateBusTripOffering(int busID, int tripNumber, String date, String scheduledStartTime) {
         try {
             Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
@@ -220,77 +211,12 @@ public class Database {
         System.out.println("Updated DriverName Successfully");
     }
 
-//Display the stops of a given trip ( i.e. the attributes of the table TripStopInfo).
-    public void DisplayStopsOfTrip(int tripNumber) {
-//TripNumber, StopNumber, SequenceNumber, DrivingTime
-        try {
-            stmt = c.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * \n" +
-                    "FROM TripStopInfo \n" +
-                    "WHERE TripNumber = '"+tripNumber+"';");
-
-            while (rs.next()) {
-                int tN = rs.getInt("TripNumber");
-                int sN = rs.getInt("StopNumber");
-                int seN = rs.getInt("SequenceNumber");
-                Time dT = rs.getTime("DrivingTime");
-
-                System.out.println("Trip Number = " + tN);
-                System.out.println("Stop Number = " + sN);
-                System.out.println("Sequence Number = " + seN);
-                System.out.println("Driving Time = " + dT);
-                System.out.println();
-            }
-            rs.close();
-            stmt.close();
-            c.close();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        System.out.println("Opened database successfully");
+    public void getStopsOfTrip(int tripNumber) {
+        //the attributes of the table TripStopInfo
     }
 
-    public void DisplayWeeklySchedule(String driverName, String date) {
+    public void getWeeklySchedule(String driverName, String date) {
         //Display trip offering
-        //TripNumber, Date, ScheduledStartTime, ScheduledArrivalTime,DriverName, BusID
-        try {
-            stmt = c.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * \n" +
-                    "FROM TripOffering \n" +
-                    "WHERE DriverName LIKE '"+driverName+"%' AND Date = '"+ date + "';");
-
-            while (rs.next()) {
-                String dN = rs.getString("DriverName");
-                Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                d= rs.getDate("Date");
-                Time ssT = rs.getTime("ScheduledStartTime");
-                Time saT = rs.getTime("ScheduledArrivalTime");
-                int bID = rs.getInt("BusID");
-                int tN = rs.getInt("TripNumber");
-
-
-                System.out.println("Driver Name= " + dN);
-                System.out.println("Date = " + d);
-                System.out.println("Scheduled Start Time = " + ssT);
-                System.out.println("Scheduled Arrival Time = " + saT);
-                System.out.println("Bus ID = " + bID);
-                System.out.println("Trip Number = " + tN);
-            }
-            rs.close();
-            stmt.close();
-            c.close();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        System.out.println("Opened database successfully");
     }
 
     public void addDriver(String driverName, int telephone) {
