@@ -87,8 +87,8 @@ public class Main {
                         int numberOfPassengerIn = scan.nextInt();
                         System.out.print(" Please enter the Number of Passengers Out\n");
                         int numberOfPassengerOut = scan.nextInt();
-                       // db.insertActualTripOffering(tripNumber, date, scheduledStartTime,stopnumber, scheduledArrivalTime,actualStartTime, actualArrivalTime,numberOfPassengerIn,
-                        //numberOfPassengerOut);
+                        db.insertActualTripOffering(tripNumber, date, scheduledStartTime,stopnumber, scheduledArrivalTime,actualStartTime, actualArrivalTime,numberOfPassengerIn,
+                        numberOfPassengerOut);
                         break;
                     }
                     else{
