@@ -11,10 +11,11 @@ public class Main {
         System.out.println(" 1. Add ");
         System.out.println(" 2. Delete ");
         System.out.println(" 3. Display ");
-        System.out.println(" 4. Exit ");
+        System.out.println(" 4. Update ");
+        System.out.println(" 5. Exit ");
 
         int input = scan.nextInt();
-        while(input <=4) {
+        while(input <=5) {
             if(input ==1) {
                 //ADD
                 System.out.print(" What Would You Like To Add?\n");
@@ -135,7 +136,57 @@ public class Main {
                 }//END DISPLAY WHILE
             }//END DISPLAY IF
 
-            if(input ==4){
+            if(input == 4) {
+                //UPDATE
+                System.out.print(" What Would You Like To Update?\n");
+                System.out.print(" 1. Trip Offering: Drive Name\n");
+                System.out.print(" 2. Trip Offering: BusID\n");
+                int updateSelect = scan.nextInt();
+
+                while(updateSelect <=2) {
+                    if (updateSelect == 1) {
+                        //TRIP OFFERING
+                        scan.nextLine();
+                        System.out.print(" Please enter Name of Driver\n");
+                        String driverName = scan.nextLine();
+
+                        System.out.print(" Please enter a Trip Number\n");
+                        int tripNumber = scan.nextInt();
+                        scan.nextLine();
+
+                        System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
+                        String date = scan.nextLine();
+
+                        System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
+                        String scheduledStartTime = scan.nextLine();
+
+                        db.updateDriverTripOffering(driverName, tripNumber, date, scheduledStartTime);
+                    }
+                    if (updateSelect == 2) {
+                        //TRIP OFFERING
+                        scan.nextLine();
+                        System.out.print(" Please enter Name of Driver\n");
+                        int busID = scan.nextInt();
+
+                        System.out.print(" Please enter a Trip Number\n");
+                        int tripNumber = scan.nextInt();
+                        scan.nextLine();
+
+                        System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
+                        String date = scan.nextLine();
+
+                        System.out.print(" Please enter a Schedule Start Time in the form of hh:mm:ss\n");
+                        String scheduledStartTime = scan.nextLine();
+
+                        db.updateBusTripOffering(busID, tripNumber, date, scheduledStartTime);
+                    }
+                    else {
+                        System.out.println("Error");
+                    }
+                }//END UPDARE WHILE
+            }//END UPDATE IF
+
+            if(input ==5){
                 //EXIT
                 System.exit(1);
             }//END EXIT IF
