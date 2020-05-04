@@ -22,9 +22,10 @@ public class Main {
                 System.out.print(" 1. Trip Offering\n");
                 System.out.print(" 2. Bus\n");
                 System.out.print(" 3. Driver\n");
+                System.out.print(" 4. Actual Trip Stop Information\n");
                 int addselect = scan.nextInt();
 
-                while(addselect <=3){
+                while(addselect <=4){
                     if(addselect==1){
                         //TRIP OFFERING
                         System.out.print(" Please enter a Trip Number\n");
@@ -64,7 +65,32 @@ public class Main {
                         db.addDriver(driverName, telephone);
                         break;
                     }//END ADD DRIVER
-
+                    if(addselect==4){
+                        //DRIVER
+                        scan.nextLine();
+                        System.out.print(" Please enter the Trip Number\n");
+                        int tripNumber = scan.nextInt();
+                        scan.nextLine();
+                        System.out.print(" Please enter a Date in the form of YYYY-MM-DD\n");
+                        String date = scan.nextLine();
+                        System.out.print(" Please enter the Scheduled Arrival Time in the form of hh:mm:ss\n");
+                        String scheduledArrivalTime = scan.nextLine();
+                        System.out.print(" Please enter the Scheduled Start Time in the form of hh:mm:ss\n");
+                        String scheduledStartTime = scan.nextLine();
+                        System.out.print(" Please enter the Actual Start Time in the form of hh:mm:ss\n");
+                        String actualStartTime = scan.nextLine();
+                        System.out.print(" Please enter the Actual Arrival Time in the form of hh:mm:ss\n");
+                        String actualArrivalTime = scan.nextLine();
+                        System.out.print(" Please enter the Stop Number\n");
+                        int stopnumber = scan.nextInt();
+                        System.out.print(" Please enter the Number of Passengers In\n");
+                        int numberOfPassengerIn = scan.nextInt();
+                        System.out.print(" Please enter the Number of Passengers Out\n");
+                        int numberOfPassengerOut = scan.nextInt();
+                       // db.insertActualTripOffering(tripNumber, date, scheduledStartTime,stopnumber, scheduledArrivalTime,actualStartTime, actualArrivalTime,numberOfPassengerIn,
+                        //numberOfPassengerOut);
+                        break;
+                    }
                     else{
                         System.out.println("Error");
                     }
@@ -118,7 +144,7 @@ public class Main {
                         String StartLocationName = scan.nextLine();
                         System.out.println("Please enter the Destination Name");
                         String DestinationName = scan.nextLine();
-                        System.out.println("Please enter the Date");
+                        System.out.println("Please enter a Date in the form of YYYY-MM-DD");
                         String Date = scan.nextLine();
                         db.displayTripSchedule(StartLocationName,  DestinationName,  Date);
                     }
@@ -127,7 +153,7 @@ public class Main {
                         scan.nextLine();
                         System.out.println("Please enter the Driver Name");
                         String driverName = scan.nextLine();
-                        System.out.println("Please enter the Date");
+                        System.out.println("Please enter a Date in the form of YYYY-MM-DD");
                         String date = scan.nextLine();
                         db.displayWeeklySchedule(driverName, date);
                     }
@@ -192,7 +218,7 @@ public class Main {
                     else {
                         System.out.println("Error");
                     }
-                }//END UPDARE WHILE
+                }//END UPDATE WHILE
             }//END UPDATE IF
 
             if(input ==5){
