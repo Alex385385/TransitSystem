@@ -63,7 +63,6 @@ public class Database {
             }
             rs.close();
             stmt.close();
-            c.close();
         }
      catch(Exception e){
         e.printStackTrace();
@@ -107,6 +106,7 @@ public class Database {
         try {
             Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             java.sql.Date sqlDate = new java.sql.Date(d.getTime());
+
             DateFormat sst =  new SimpleDateFormat("hh:mm:ss");
             DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
             Date r = sdf.parse(scheduledStartTime);
@@ -118,6 +118,7 @@ public class Database {
 
             stmt = c.createStatement();
             String sql = "INSERT INTO TripOffering(tripNumber, date, scheduledStartTime, scheduledArrivalTime, driverName, busID)" + " VALUES(?,?,?,?,?,?);";
+
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1,tripNumber);
             ps.setDate(2,sqlDate);
@@ -126,9 +127,9 @@ public class Database {
             ps.setString(5,driverName);
             ps.setInt(6,busID);
             ps.executeUpdate();
+
             c.commit();
             stmt.close();
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -142,17 +143,17 @@ public class Database {
         try {
             //CHECK IF INFO IS VALID
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT toff.TripNumber, toff.Date, toff.ScheduledStartTime \n" +
-                    "FROM  TripOffering As toff \n" +
-                    "WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
-                    "toff.Date = '" + date + "' AND \n" +
-                    "toff.ScheduledStartTime = '"+scheduledStartTime+"';");
+            ResultSet rs = stmt.executeQuery("SELECT TripNumber, Date, ScheduledStartTime \n" +
+                    "FROM  TripOffering \n" +
+                    "WHERE TripNumber = '" + tripNumber + "' AND \n" +
+                    "Date = '" + date + "' AND \n" +
+                    "ScheduledStartTime = '" + scheduledStartTime + "';");
 
             while (rs.next()) {
                 int tN = rs.getInt("TripNumber");
                 //date
                 Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                d= rs.getDate("Date");
+                d = rs.getDate("Date");
                 //time
                 Time sstartt = rs.getTime("ScheduledStartTime");
 
@@ -165,29 +166,58 @@ public class Database {
             }
             System.out.println("Information Is Valid");
             //Proceed to update
-            String sql ="UPDATE TripOffering "
-                                +"SET DriverName = ?"
-                                +"WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
-                                "toff.Date = '" + date + "' AND \n" +
-                                "toff.ScheduledStartTime = '"+scheduledStartTime+"';";
+            String sql = "UPDATE TripOffering "
+                    + "SET DriverName = ?"
+                    + "WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
+                    "toff.Date = '" + date + "' AND \n" +
+                    "toff.ScheduledStartTime = '" + scheduledStartTime + "';";
 
-            PreparedStatement pstmt = c.prepareStatement(sql);
-            pstmt.setString(1, drivername);
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, drivername);
+            ps.executeUpdate();
 
-            rs.close();
+            c.commit();
             stmt.close();
-            c.close();
         }
-        catch(Exception e){
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+             catch (Exception e) {
+                e.printStackTrace();
+                System.err.println(e.getClass().getName()+": "+e.getMessage());
+                System.exit(0);
+            }
+            System.out.println("Updated DriverName Successfully");
+
+
         }
-        System.out.println("Opened database successfully");
-    }
 //Change the bus for a given Trip offering.
     public void updateBusTripOffering(int busID, int tripNumber, String date, String scheduledStartTime) {
+        try {
+            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
 
+            DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+            Date dateParse = dateFormat.parse(scheduledStartTime);
+            Time sqlTime = new Time(dateParse.getTime());
+
+            stmt = c.createStatement();
+            String sql = "UPDATE tripoffering SET busid = ?\n" +
+                         "WHERE tripnumber = ? AND date = ? AND scheduledstarttime = ?;";
+
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, busID);
+            ps.setInt(2, tripNumber);
+            ps.setDate(3, sqlDate);
+            ps.setTime(4, sqlTime);
+            ps.executeUpdate();
+
+            c.commit();
+            stmt.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Updated DriverName Successfully");
     }
 
 //Display the stops of a given trip ( i.e. the attributes of the table TripStopInfo).
@@ -265,16 +295,16 @@ public class Database {
 
     public void addDriver(String driverName, int telephone) {
         try {
-
             stmt = c.createStatement();
             String sql = "INSERT INTO Driver(DriverName, DriverTelephoneNumber)" + " VALUES(?,?);";
+
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setString(1,driverName);
             ps.setInt(2,telephone);
             ps.executeUpdate();
+
             c.commit();
             stmt.close();
-
         }
         catch (Exception e) {
         e.printStackTrace();
@@ -286,17 +316,17 @@ public class Database {
 
     public void addBus(int busID, String model, int year) {
         try {
-
             stmt = c.createStatement();
             String sql = "INSERT INTO Bus(BusID, Model, Year)" + " VALUES(?,?,?);";
+
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1,busID);
             ps.setString(2,model);
             ps.setInt(3,year);
             ps.executeUpdate();
+
             c.commit();
             stmt.close();
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -310,9 +340,11 @@ public class Database {
         try {
             stmt = c.createStatement();
             String sql = "DELETE FROM bus" + " WHERE busID = ?;";
+
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1,busID);
             ps.executeUpdate();
+
             c.commit();
             stmt.close();
         }

@@ -150,10 +150,10 @@ public class Main {
                 System.out.print(" What Would You Like To Update?\n");
                 System.out.print(" 1. Driver\n");
                 System.out.print(" 2. Bus\n");
-                int displayselect = scan.nextInt();
+                int updateselect = scan.nextInt();
 
-                while(displayselect <=2) {
-                    if (displayselect == 1) {
+                while(updateselect <=2) {
+                    if (updateselect == 1) {
                         //UPDATE DRIVER
                         scan.nextLine();
                         System.out.println("Please Validate Some Information and Enter New Driver's Name:");
@@ -168,14 +168,20 @@ public class Main {
                         String newDriver = scan.nextLine();
                         db.updateDriverTripOffering(newDriver,tripNumber, date, scheduledStartTime);
                     }
-                    if (displayselect == 2) {
+                    if (updateselect == 2) {
                         //UPDATE BUS
                         scan.nextLine();
-                        System.out.println("Please enter the Driver Name");
-                        String driverName = scan.nextLine();
+                        System.out.println("Please enter the Bus ID");
+                        int busID = scan.nextInt();
                         System.out.println("Please enter the Date");
                         String date = scan.nextLine();
-                        db.DisplayWeeklySchedule( driverName, date);
+                        scan.nextLine();
+                        System.out.println("Please enter the Trip Number");
+                        int tripNumber = scan.nextInt();
+                        scan.nextLine();
+                        System.out.println("Please enter the Scheduled Start Time");
+                        String scheduledStartTime = scan.nextLine();
+                        db.updateBusTripOffering(busID, tripNumber, date,  scheduledStartTime);
                     }
                     else {
                         System.out.println("Error");
