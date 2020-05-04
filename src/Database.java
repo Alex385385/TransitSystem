@@ -28,17 +28,7 @@ public class Database {
 //    ScheduledArrivalTime , DriverName, and BusID.
 
     public void displayTripSchedule(String StartLocationName, String DestinationName, String Date) {
-        //--Display--
-        //Scheduled StartTime
-        //ScheduledArrivalTime
-        //DriverName
-        //BusID
-//        SELECT t.StartLocationName, t.DestinationName, toff.Date, toff.ScheduledStartTime, toff.ScheduledArrivalTime,toff.DriverName, toff.BusID
-//        FROM trip AS t, TripOffering As toff
-//        WHERE t.TripNumber=toff.TripNumber AND
-//        t.StartLocationName LIKE 'Chum Bucket%' AND
-//        t.DestinationName LIKE 'Krusty Krab%'AND
-//        toff.Date = '2020-01-01';
+
         try {
             stmt = c.createStatement();
             String mem = "trip";
@@ -156,12 +146,77 @@ public class Database {
 
     }
 
-    public void getStopsOfTrip(int tripNumber) {
-        //the attributes of the table TripStopInfo
+//Display the stops of a given trip ( i.e. the attributes of the table TripStopInfo).
+    public void DisplayStopsOfTrip(int tripNumber) {
+//TripNumber, StopNumber, SequenceNumber, DrivingTime
+        try {
+            stmt = c.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * \n" +
+                    "FROM TripStopInfo \n" +
+                    "WHERE TripNumber = '"+tripNumber+"';");
+
+            while (rs.next()) {
+                int tN = rs.getInt("TripNumber");
+                int sN = rs.getInt("StopNumber");
+                int seN = rs.getInt("SequenceNumber");
+                Time dT = rs.getTime("DrivingTime");
+
+                System.out.println("Trip Number = " + tN);
+                System.out.println("Stop Number = " + sN);
+                System.out.println("Sequence Number = " + seN);
+                System.out.println("Driving Time = " + dT);
+                System.out.println();
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Opened database successfully");
     }
 
-    public void getWeeklySchedule(String driverName, String date) {
+    public void DisplayWeeklySchedule(String driverName, String date) {
         //Display trip offering
+        //TripNumber, Date, ScheduledStartTime, ScheduledArrivalTime,DriverName, BusID
+        try {
+            stmt = c.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * \n" +
+                    "FROM TripOffering \n" +
+                    "WHERE DriverName LIKE '"+driverName+"%' AND Date = '"+ date + "';");
+
+            while (rs.next()) {
+                String dN = rs.getString("DriverName");
+                Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                d= rs.getDate("Date");
+                Time ssT = rs.getTime("ScheduledStartTime");
+                Time saT = rs.getTime("ScheduledArrivalTime");
+                int bID = rs.getInt("BusID");
+                int tN = rs.getInt("TripNumber");
+
+
+                System.out.println("Driver Name= " + dN);
+                System.out.println("Date = " + d);
+                System.out.println("Scheduled Start Time = " + ssT);
+                System.out.println("Scheduled Arrival Time = " + saT);
+                System.out.println("Bus ID = " + bID);
+                System.out.println("Trip Number = " + tN);
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Opened database successfully");
     }
 
     public void addDriver(String driverName, int telephone) {
