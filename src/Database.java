@@ -137,11 +137,55 @@ public class Database {
         }
         System.out.println(" Added to database successfully");
     }
+//Change the driver for a given Trip offering (i.e given TripNumber, Date, ScheduledStartTime);
+    public void updateDriverTripOffering( String drivername,int tripNumber, String date, String scheduledStartTime) {
+        try {
+            //CHECK IF INFO IS VALID
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT toff.TripNumber, toff.Date, toff.ScheduledStartTime \n" +
+                    "FROM  TripOffering As toff \n" +
+                    "WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
+                    "toff.Date = '" + date + "' AND \n" +
+                    "toff.ScheduledStartTime = '"+scheduledStartTime+"';");
 
-    public void updateDriverTripOffering(String driverName, int tripNumber, String date, String scheduledStartTime) {
+            while (rs.next()) {
+                int tN = rs.getInt("TripNumber");
+                //date
+                Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                d= rs.getDate("Date");
+                //time
+                Time sstartt = rs.getTime("ScheduledStartTime");
 
+
+                System.out.println("Trip ID = " + tN);
+                System.out.println("Date = " + d);
+                System.out.println("Scheduled Start Time = " + sstartt);
+
+                System.out.println();
+            }
+            System.out.println("Information Is Valid");
+            //Proceed to update
+            String sql ="UPDATE TripOffering "
+                                +"SET DriverName = ?"
+                                +"WHERE toff.TripNumber = '" + tripNumber + "' AND \n" +
+                                "toff.Date = '" + date + "' AND \n" +
+                                "toff.ScheduledStartTime = '"+scheduledStartTime+"';";
+
+            PreparedStatement pstmt = c.prepareStatement(sql);
+            pstmt.setString(1, drivername);
+
+            rs.close();
+            stmt.close();
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Opened database successfully");
     }
-
+//Change the bus for a given Trip offering.
     public void updateBusTripOffering(int busID, int tripNumber, String date, String scheduledStartTime) {
 
     }
