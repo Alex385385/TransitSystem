@@ -19,18 +19,69 @@ public class Database {
             System.out.println("Opened database successfully");
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
     }
+//    Display the schedule of all trips for a given StartLocationName and Destination Name,
+//    and Date. In addition to these attributes, the schedule includes: Scheduled StartTime,
+//    ScheduledArrivalTime , DriverName, and BusID.
 
-    public void getTripSchedule(String StartLocationName, String DestinationName, String Date) {
+    public void displayTripSchedule(String StartLocationName, String DestinationName, String Date) {
         //--Display--
         //Scheduled StartTime
         //ScheduledArrivalTime
         //DriverName
         //BusID
+//        SELECT t.StartLocationName, t.DestinationName, toff.Date, toff.ScheduledStartTime, toff.ScheduledArrivalTime,toff.DriverName, toff.BusID
+//        FROM trip AS t, TripOffering As toff
+//        WHERE t.TripNumber=toff.TripNumber AND
+//        t.StartLocationName LIKE 'Chum Bucket%' AND
+//        t.DestinationName LIKE 'Krusty Krab%'AND
+//        toff.Date = '2020-01-01';
+        try {
+            stmt = c.createStatement();
+            String mem = "trip";
+            ResultSet rs = stmt.executeQuery("SELECT t.StartLocationName, t.DestinationName, toff.Date, toff.ScheduledStartTime, toff.ScheduledArrivalTime,toff.DriverName, toff.BusID \n" +
+                    "FROM trip AS t, TripOffering As toff \n" +
+                    "WHERE t.TripNumber=toff.TripNumber AND \n" +
+                    "t.StartLocationName LIKE '" + StartLocationName + "%' AND \n" +
+                    "t.DestinationName LIKE '" + DestinationName + "%' AND \n" +
+                    "toff.Date = '"+Date+"';");
+
+            while (rs.next()) {
+                String start = rs.getString("StartLocationName");
+                String des = rs.getString("DestinationName");
+                //date
+                Date d = new SimpleDateFormat("yyyy-MM-dd").parse(Date);
+                d= rs.getDate("Date");
+                //time
+                Time sstartt = rs.getTime("ScheduledStartTime");
+                //time
+                Time sarrt = rs.getTime("ScheduledArrivalTime");
+                String dn = rs.getString("DriverName");
+                int bid = rs.getInt("BusID");
+
+                System.out.println("Start Location Name = " + start);
+                System.out.println("Destination Name = " + des);
+                System.out.println("Date = " + d);
+                System.out.println("Scheduled Start Time = " + sstartt);
+                System.out.println("Scheduled Start Time = " + sarrt);
+                System.out.println("Driver Name = " + dn);
+                System.out.println("Bus ID = " + bid);
+                System.out.println();
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        }
+     catch(Exception e){
+        e.printStackTrace();
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        System.exit(0);
     }
+        System.out.println("Opened database successfully");
+}
 
     public void deleteTripOffering(int tripNumber, String date, String scheduledStartTime) {
 

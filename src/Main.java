@@ -111,7 +111,14 @@ public class Main {
                 while(displayselect <=3) {
                     if (displayselect == 1) {
                         //DISPLAY TRIP OFFERING
-                        //DisplayTripOffering();
+                        scan.nextLine();
+                        System.out.println("Please enter the Start Location Name");
+                        String StartLocationName = scan.nextLine();
+                        System.out.println("Please enter the Destination Name");
+                        String DestinationName = scan.nextLine();
+                        System.out.println("Please enter the Date");
+                        String Date = scan.nextLine();
+                        db.displayTripSchedule(StartLocationName,  DestinationName,  Date);
                     }
                     if (displayselect == 2) {
                         //DRIVER SCHEDULE AND DATE
