@@ -348,8 +348,55 @@ public class Database {
         System.out.println("Deleted From Database Successfully");
     }
 
-    public void insertTripOffering() {
+    public void insertActualTripOffering(int tripNumber, String date, String scheduledStartTime, int stopnumber,
+                                         String scheduledArrivalTime,String actualStartTime, String actualArrivalTime,
+                                         int numberOfPassengerIn, int numberOfPassengerOut) {
+        try {
+            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
 
+            DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+            Date r = sdf.parse(scheduledStartTime);
+            Time sqlStartTime = new Time(r.getTime());
+
+            DateFormat sat =  new SimpleDateFormat("hh:mm:ss");
+            Date r2 = sat.parse(scheduledArrivalTime);
+            Time sqlScheduleTime = new Time(r2.getTime());
+
+            DateFormat sast =  new SimpleDateFormat("hh:mm:ss");
+            Date r3 = sast.parse(actualStartTime);
+            Time sqlActualStartTime = new Time(r3.getTime());
+
+            DateFormat saat =  new SimpleDateFormat("hh:mm:ss");
+            Date r4 = saat.parse(actualArrivalTime);
+            Time sqlActualArrivalTime = new Time(r4.getTime());
+
+            stmt = c.createStatement();
+            String sql = "INSERT INTO TripOffering(tripNumber, date, scheduledStartTime, stopnumber, " +
+                         "scheduledArrivalTime, actualstarttime, actualarrivaltime, numberofpassengerin, numberofpassengerout)" +
+                         " VALUES(?,?,?,?,?,?,?,?,?);";
+
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1,tripNumber);
+            ps.setDate(2,sqlDate);
+            ps.setTime(3,sqlStartTime);
+            ps.setInt(4, stopnumber);
+            ps.setTime(5, sqlScheduleTime);
+            ps.setTime(6, sqlActualStartTime);
+            ps.setTime(7, sqlActualArrivalTime);
+            ps.setInt(8, numberOfPassengerIn);
+            ps.setInt(9, numberOfPassengerOut);
+            ps.executeUpdate();
+
+            c.commit();
+            stmt.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Added to database successfully");
     }
 
 }
