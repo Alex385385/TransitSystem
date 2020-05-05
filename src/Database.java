@@ -1,8 +1,8 @@
+//Project Created by Alejandro Millan and Caroline Resler
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 public class Database {
     private String p = "rwvDqBlKODdjbVsd_-4wEJrhXVPHREth";
     private String u = "wgymixpg";
