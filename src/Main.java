@@ -22,13 +22,16 @@ public class Main {
             switch (input) {
                 //ADD
                 case 1:
+                    int addselect;
+                    do{
                     System.out.print(" What Would You Like To Add?\n");
                     System.out.print(" 1. Trip Offering\n");
                     System.out.print(" 2. Bus\n");
                     System.out.print(" 3. Driver\n");
                     System.out.print(" 4. Actual Trip Stop Information\n");
-                    int addselect = scan.nextInt();
-                    while (addselect <= 4) {
+                    System.out.print(" 5. Exit\n");
+                    addselect = scan.nextInt();
+
                         if (addselect == 1) {
                             //TRIP OFFERING
                             System.out.print(" Please enter a Trip Number\n");
@@ -95,17 +98,22 @@ public class Main {
                             db.insertActualTripOffering(tripNumber1, date1, scheduledStartTime1, stopnumber, scheduledArrivalTime1, actualStartTime, actualArrivalTime, numberOfPassengerIn,
                                     numberOfPassengerOut);
                         }
-                    }//End ADD
-                    break;
+                        if (addselect == 5){
+                            break;
+                        }
+                    }while (addselect <= 5);
+                    break;//End ADD
+
 
                 case 2:
+                    int deleteselect;
                     //DELETE
+                    do{
                     System.out.print(" What Would You Like To Delete?\n");
                     System.out.print(" 1. Trip Offering\n");
                     System.out.print(" 2. Bus\n");
-                    int deleteselect = scan.nextInt();
-
-                    while (deleteselect <= 2) {
+                    System.out.print(" 3. Exit\n");
+                    deleteselect = scan.nextInt();
                         if (deleteselect == 1) {
                             //TRIP OFFERING
                             System.out.print(" Please enter a Trip Number\n");
@@ -124,17 +132,22 @@ public class Main {
                             int busID = scan.nextInt();
                             db.deleteBus(busID);
                         }
-                    }//END DELETE
+                        if (deleteselect == 3) {
+                            break;
+                        }
+                    }while (deleteselect <= 3);//END DELETE
                     break;
 
                 case 3:
+                    int displayselect;
                     //DISPLAY
+                    do{
                     System.out.print(" What Would You Like To Display?\n");
                     System.out.print(" 1. Trip Offering\n");
                     System.out.print(" 2. Driver Schedule and Date\n");
                     System.out.print(" 3. Stops\n");
-                    int displayselect = scan.nextInt();
-                    while (displayselect <= 3) {
+                    System.out.print(" 4. Exit\n");
+                    displayselect = scan.nextInt();
                         if (displayselect == 1) {
                             //DISPLAY TRIP OFFERING
                             scan.nextLine();
@@ -157,26 +170,30 @@ public class Main {
                             db.displayWeeklySchedule(driverName, date);
                         }
 
-                        if (displayselect == 1) {
+                        if (displayselect == 3) {
                             //STOPS
                             scan.nextLine();
                             System.out.println("Please enter the Trip Number");
                             int tripNumber = scan.nextInt();
                             db.displayStopsOfTrip(tripNumber);
                         }
-
-                    }//END DISPLAY
+                        if (displayselect == 4) {
+                            break;
+                        }
+                    }while (displayselect <= 4);//END DISPLAY
                     break;
 
 
                 case 4:
+                    int updateSelect;
                     //UPDATE
+                    do{
                     System.out.print(" What Would You Like To Update?\n");
                     System.out.print(" 1. Trip Offering: Drive Name\n");
                     System.out.print(" 2. Trip Offering: BusID\n");
-                    int updateSelect = scan.nextInt();
+                    System.out.print(" 3. Exit\n");
+                    updateSelect = scan.nextInt();
 
-                    while (updateSelect <= 2) {
                         if (updateSelect == 1) {
                             //TRIP OFFERING
                             scan.nextLine();
@@ -214,7 +231,10 @@ public class Main {
 
                             db.updateBusTripOffering(busID, tripNumber2, date2, scheduledStartTime2);
                         }
-                    }//END UPDATE
+                        if(updateSelect==3){
+                            break;
+                        }
+                    }while (updateSelect <= 3);//END UPDATE
                     break;
 
                 case 5:
