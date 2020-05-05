@@ -79,7 +79,7 @@ public class Database {
         System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.exit(0);
     }
-        System.out.println("Opened database successfully");
+        System.out.println("Done");
 }
 
     public void deleteTripOffering(int tripNumber, String date, String scheduledStartTime) {
@@ -182,8 +182,8 @@ public class Database {
 
     public void updateBusTripOffering(int busID, int tripNumber, String date, String scheduledStartTime) {
         try {
-            DateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
-            Date newsqlDate = sqlDate.parse(date);
+            Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            java.sql.Date sqlDate = new java.sql.Date(d.getTime());
 
             DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
             Date dateParse = dateFormat.parse(scheduledStartTime);
@@ -196,7 +196,7 @@ public class Database {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, busID);
             ps.setInt(2, tripNumber);
-            ps.setDate(3, (java.sql.Date) newsqlDate);
+            ps.setDate(3, sqlDate);
             ps.setTime(4, sqlTime);
             ps.executeUpdate();
 
@@ -208,7 +208,7 @@ public class Database {
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             System.exit(0);
         }
-        System.out.println("Updated DriverName Successfully");
+        System.out.println("Updated Bus ID Successfully");
     }
 
     public void displayStopsOfTrip(int tripNumber) {
@@ -241,7 +241,7 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("Opened database successfully");
+        System.out.println("Done");
     }
 
     public void displayWeeklySchedule(String driverName, String date) {
@@ -280,7 +280,7 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("Opened database successfully");
+        System.out.println("Done");
 
     }
 
@@ -372,20 +372,20 @@ public class Database {
             Time sqlActualArrivalTime = new Time(r4.getTime());
 
             stmt = c.createStatement();
-            String sql = "INSERT INTO TripOffering(tripNumber, date, scheduledStartTime, stopnumber, " +
-                         "scheduledArrivalTime, actualstarttime, actualarrivaltime, numberofpassengerin, numberofpassengerout)" +
+            String sql = "INSERT INTO actualtripstopinfo(tripNumber, date, scheduledStartTime, " +
+                         "scheduledArrivalTime, actualstarttime, actualarrivaltime, numberofpassengerin, numberofpassengerout, stopNumber)" +
                          " VALUES(?,?,?,?,?,?,?,?,?);";
 
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1,tripNumber);
             ps.setDate(2,sqlDate);
             ps.setTime(3,sqlStartTime);
-            ps.setInt(4, stopnumber);
-            ps.setTime(5, sqlScheduleTime);
-            ps.setTime(6, sqlActualStartTime);
-            ps.setTime(7, sqlActualArrivalTime);
-            ps.setInt(8, numberOfPassengerIn);
-            ps.setInt(9, numberOfPassengerOut);
+            ps.setTime(4, sqlScheduleTime);
+            ps.setTime(5, sqlActualStartTime);
+            ps.setTime(6, sqlActualArrivalTime);
+            ps.setInt(7, numberOfPassengerIn);
+            ps.setInt(8, numberOfPassengerOut);
+            ps.setInt(9, stopnumber);
             ps.executeUpdate();
 
             c.commit();
